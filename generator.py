@@ -1,5 +1,7 @@
 import re
 import random
+import tkinter as tk
+from tkinter.filedialog import askopenfilename
 
 def generate_demo_questions(num):
     """generate demo questions"""
@@ -10,13 +12,19 @@ def generate_demo_questions(num):
 
 def get_questions():
     """read quesions from file and remove enumeration"""
+
     questions = []
+
+    root = tk.Tk()
+    root.withdraw()
+    filename = askopenfilename(title="Please select a file containing a list of questions", 
+                               filetypes=(('Text Document (*.txt)', '*.txt'), ('All Files', '.*')))
     
-    with open('demo-questions.txt', 'r') as q:
+    with open(filename, 'r') as q:
         for question in q:
             q1 = question.strip()
-            q2 = re.sub(r'^.*?\. ', '', q1)
-            questions.append(q2)
+            q2 = re.sub(r'^.*?\.', '', q1)
+            questions.append(q2.lstrip())
 
     return questions
 
@@ -30,19 +38,26 @@ def main():
 
     set_of_sets_of_questions = []
     current_set_of_questions = []
-
+    used_id_in_a__given_set = []
     for i in range(1, number_of_sets*number_of_questions_in_set+1):
         quesion_id = random.randint(0, len(questions)-1)
+        while quesion_id in used_id_in_a__given_set:
+            # prevent duplicate questions in a given set
+            quesion_id = random.randint(0, len(questions)-1)
+
+        used_id_in_a__given_set.append(quesion_id)
         current_set_of_questions.append(questions[quesion_id])
 
         if i % number_of_questions_in_set == 0:
             set_of_sets_of_questions.append(current_set_of_questions)
             current_set_of_questions = []
-    
-    for num, set in enumerate(set_of_sets_of_questions):
-        print(f'\nSet nr {num+1}')
-        for question in set:
-            print(f'{question}')
+            used_id_in_a__given_set = []
+        
+    with open('sets-of-questions.txt', 'w') as out:
+        for num, set in enumerate(set_of_sets_of_questions):
+            out.write(f'\nSet nr {num+1}\n')
+            for nr, question in enumerate(set):
+                out.write(f'{nr+1}. {question}\n')
             
 
 if __name__ == "__main__":
