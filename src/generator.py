@@ -7,7 +7,7 @@ class SetGenerator:
     set_of_sets_of_questions: list[list[str]]
     questions: list[str] = []
 
-    def load_questions_file(self) -> list[str]:
+    def load_questions_file(self) -> (list[str], str):
         """read questions from file and remove enumeration"""
 
         filename = filedialog.askopenfilename(title="Select a file containing a list of questions",
@@ -19,7 +19,7 @@ class SetGenerator:
                     q2 = re.sub(r'^.*?\.', '', q1)  # remove numerations from questions
                     self.questions.append(q2.lstrip())
 
-        return self.questions
+        return self.questions, filename
 
     def generate_sets(self, questions: list[str], nr_of_sets: int, nr_of_questions_per_set: int) -> None:
         self.set_of_sets_of_questions = []

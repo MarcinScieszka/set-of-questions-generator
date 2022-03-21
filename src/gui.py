@@ -13,7 +13,7 @@ class Gui:
     def __init__(self, window) -> None:
         self.slider_nr_of_questions_per_set = None
         self.window = window
-        self.window.minsize(500, 400)
+        self.window.minsize(700, 400)
         self.window['bg'] = '#2A2A2E'
         self.window.title('Set of questions generator')
         self.window.iconphoto(False, tk.PhotoImage(file='./images/icon.png'))
@@ -21,7 +21,7 @@ class Gui:
 
         self.label_load_questions = self.create_label_descr('Load a text file containing a list of questions')
         self.button_load_questions = self.create_button('Load questions', lambda: self.handle_load_questions())
-        self.label_msg_questions_loaded_successfully = self.create_label_msg('Questions loaded successfully')
+        self.label_msg_questions_loaded_successfully = None
         self.label_nr_of_questions = self.create_label_regular('Number of questions per set:')
         self.label_nr_of_sets = self.create_label_regular('Number of sets:')
         self.slider_nr_of_sets = self.create_scale(1, 50)
@@ -35,10 +35,11 @@ class Gui:
         self.button_load_questions.place(x=self.x_coordinate + 5, y=65)
 
     def handle_load_questions(self):
-        self.questions = self.set_generator.load_questions_file()
+        self.questions, filename = self.set_generator.load_questions_file()
         if not self.questions:  # user did not provide set of questions
             return
 
+        self.label_msg_questions_loaded_successfully = self.create_label_msg(f'Questions loaded successfully\nFile loaction: {filename}')
         self.label_msg_questions_loaded_successfully.place(x=self.x_coordinate, y=95)
 
         self.max_questions_in_set = len(self.questions)
