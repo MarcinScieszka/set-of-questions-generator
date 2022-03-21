@@ -2,6 +2,7 @@ class Constants:
     FONT_TYPEFACE = 'Ubuntu'
     FONT_SIZE_REGULAR = 14
     FONT_SIZE_DESCRIPTION = 12
+    FONT_SIZE_MESSAGE = 10
 
     COLOUR_BACKGROUND = '#2A2A2E'
     COLOUR_TEXT = '#FAFAFA'
@@ -10,7 +11,6 @@ class Constants:
     COLOUR_LISTBOX_TEXT = '#ffffff'
     COLOUR_BUTTON_BACKGROUND = '#f1f1f1'
 
-    # -----------------------
     ACTIVE_CURSOR = 'hand2'
     BUTTON_BORDER_SIZE = 0
 
