@@ -22,6 +22,9 @@ class SetGenerator:
         return self.questions, filename
 
     def generate_sets(self, questions: list[str], nr_of_sets: int, nr_of_questions_per_set: int) -> None:
+        """generate sets of questions from provided list of questions
+           each set contains unique questions"""
+
         self.set_of_sets_of_questions = []
         current_set_of_questions: list[str] = []
         used_id_in_a_given_set: list[int] = []
@@ -40,16 +43,17 @@ class SetGenerator:
                 current_set_of_questions = []
                 used_id_in_a_given_set = []
 
-    def save_generated_sets_to_file(self):
+    def save_generated_sets_to_file(self) -> bool:
         """Save generated sets of questions into .txt file
-            output location provided by user"""
+           output location provided by user"""
 
         file_output = filedialog.askdirectory()
         if not file_output:
-            return
+            return False
 
         with open(file_output + '/sets-of-questions.txt', 'w') as out:
             for num, given_set in enumerate(self.set_of_sets_of_questions):
                 out.write(f'\nSet nr {num + 1}\n')
                 for nr, question in enumerate(given_set):
                     out.write(f'{nr + 1}. {question}\n')
+        return True
