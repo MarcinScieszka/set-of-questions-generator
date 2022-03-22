@@ -81,7 +81,7 @@ class Gui:
         if not self.set_generator.save_generated_sets_to_file():
             return
 
-        self.label_msg_sets_saved_successfully.place(x=self.x_coordinate, y=360)
+        self.label_msg_sets_saved_successfully.place(x=self.x_coordinate, y=365)
         self.label_msg_sets_saved_successfully.after(2000,
                                                      self.label_msg_sets_saved_successfully.place_forget)
 

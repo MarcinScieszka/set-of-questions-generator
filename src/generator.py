@@ -1,3 +1,4 @@
+import os
 import re
 import random
 from tkinter import filedialog
@@ -47,13 +48,16 @@ class SetGenerator:
         """Save generated sets of questions into .txt file
            output location provided by user"""
 
-        file_output = filedialog.askdirectory()
-        if not file_output:
+        output_file = filedialog.asksaveasfile(mode='w', defaultextension='.txt', filetypes=[("Text file", ".txt")])
+        if not output_file:
             return False
 
-        with open(file_output + '/sets-of-questions.txt', 'w') as out:
-            for num, given_set in enumerate(self.set_of_sets_of_questions):
-                out.write(f'\nSet nr {num + 1}\n')
-                for nr, question in enumerate(given_set):
-                    out.write(f'{nr + 1}. {question}\n')
+        for num, given_set in enumerate(self.set_of_sets_of_questions):
+            output_file.write(f'\nSet nr {num + 1}\n')
+            for nr, question in enumerate(given_set):
+                output_file.write(f'{nr + 1}. {question}\n')
+        output_file.close()
+
+        os.startfile(output_file.name)
+
         return True
